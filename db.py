@@ -1,5 +1,5 @@
 import sqlite3
-path=r'C:\sqlite\databases'
+path=r'D:\Projeto_Devs_Web_(GitHub)\IFRN\SisPerfume'
 #O nome do banco criado foi dbperfumes-v2.db. Se você criar com outro nome, troque aqui
 banco=sqlite3.connect(path+r'\dbperfumes-v2.db')
 '''
@@ -57,18 +57,21 @@ def listarMarcaNome():
     for nome_marca in nome_marcas:
         marcas.append(nome_marca[0])
     return marcas
+
 def inserirVolume(nome_volume):
     sql="insert into Volumes (nome) values('{0}')".format(nome_volume)
     cursor=banco.cursor()
     cursor.execute(sql)
     banco.commit()
     cursor.close()
+
 def atualizarVolume(id,nome):
     sql="update Volumes set nome='{0}' where id={1}".format(nome,id)
     cursor=banco.cursor()
     cursor.execute(sql)
     banco.commit()
     cursor.close()
+
 def listarVolume():
     sql="select * from Volumes"
     cursor=banco.cursor()
@@ -93,14 +96,30 @@ def localizarVolumePorNome(nome):
     volume=cursor.fetchone()
     cursor.close()
     return volume
+
+def inserirFixacao(nome):
+    sql="insert into Fixacoes (nome) values('{0}')".format(nome)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    banco.commit()
+    cursor.close()
+
+def atualizarFixacao(id,nome):
+    sql="update Fixacoes set nome='{0}' where id={1}".format(nome,id)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    banco.commit()
+    cursor.close()
+
 def listarFixacao():
     sql="select * from Fixacoes"
     cursor=banco.cursor()
     cursor.execute(sql)
-    fixacoes=cursor.fetchall()
+    fixacao=cursor.fetchall()
     cursor.close()
-    print(len(fixacoes))
-    return fixacoes
+    print(len(fixacao))
+    return fixacao
+
 def localizarFixacaoPorNome(nome):
     sql="select * from Fixacoes where nome='{0}'".format(nome)
     cursor=banco.cursor()
@@ -108,16 +127,61 @@ def localizarFixacaoPorNome(nome):
     fixacao=cursor.fetchone()
     cursor.close()
     return fixacao
+
 def listarFixacaoNome():
     sql="select nome from Fixacoes order by nome"
     cursor=banco.cursor()
     cursor.execute(sql)
-    nome_fixacoes=cursor.fetchall()
+    nome_fixacao=cursor.fetchall()
     cursor.close()
-    fixacoes=[]
-    for fixacao in nome_fixacoes:
-        fixacoes.append(fixacao[0])
-    return fixacoes
+    fixacao=[]
+    for fixacao in nome_fixacao:
+        fixacao.append(fixacao[0])
+    return fixacao
+
+def inserirEssencia(nome):
+    sql="insert into Essencias (nome) values('{0}')".format(nome)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    banco.commit()
+    cursor.close()
+
+def atualizarEssencia(id,nome):
+    sql="update Essencias set nome='{0}' where id={1}".format(nome,id)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    banco.commit()
+    cursor.close()
+
+def listarEssencia():
+    sql="select * from Essencias"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    essencia=cursor.fetchall()
+    cursor.close()
+    print(len(essencia))
+    return essencia
+
+def localizarEssenciaPorNome(nome):
+    sql="select * from Essencias where nome='{0}'".format(nome)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    essencia=cursor.fetchone()
+    cursor.close()
+    return essencia
+
+def listarEssenciaNome():
+    sql="select nome from Essencias order by nome"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    nome_essencia=cursor.fetchall()
+    cursor.close()
+    essencia=[]
+    for essencia in nome_essencia:
+        essencia.append(essencia[0])
+    return essencia
+
+
 
 '''
 Essa função lista todos os perfumes, trazendo as informações completas e relacionadas com as outras tabelas,

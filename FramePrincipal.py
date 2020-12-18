@@ -4,6 +4,9 @@ import wx
 import guiperfumes
 from FrameMarca import FrameMarca
 from FramePerfumes import FramePerfumes
+from FrameVolumes import  FrameVolumes
+from FrameFixacao import FrameFixacao
+from FrameEssencias import FrameEssencias
 
 # Implementing FramePrincipal
 class FramePrincipal(guiperfumes.FramePrincipal):
@@ -11,6 +14,9 @@ class FramePrincipal(guiperfumes.FramePrincipal):
 		guiperfumes.FramePrincipal.__init__( self, parent )
 		self.frameMarca=None
 		self.framePerfume=None
+		self.frameVolume=None
+		self.frameFixacao=None
+		self.frameEssencia=None
 
 	# Handlers for FramePrincipal events.
 	def fecharFramePrincipal( self, event ):
@@ -22,17 +28,25 @@ class FramePrincipal(guiperfumes.FramePrincipal):
 		self.frameMarca.Show(True)
 
 	def abrirFixacoes( self, event ):
-		# TODO: Implement abrirFixacoes
-		pass
+		if not self.frameFixacao:
+			self.frameFixacao=FrameFixacao(self)
+		self.frameFixacao.Show(True)
 
-	def abrirVolumes( self, event ):
-		# TODO: Implement abrirVolumes
-		pass
+	def abrirVolumes(self, event ):
+		if not self.frameVolume:
+			self.frameVolume=FrameVolumes(self)
+		self.frameVolume.Show(True)
 
 	def abrirPerfume( self, event ):
 		if not self.framePerfume:
 			self.framePerfume=FramePerfumes(self)
 		self.framePerfume.Show(True)
+
+	def abrirEssencias(self, event ):
+		if not self.frameEssencia:
+			self.frameEssencia = FrameEssencias(self)
+		self.frameEssencia.Show(True)
+
 
 	def fecharApp( self, event ):
 		# TODO: Implement fecharApp

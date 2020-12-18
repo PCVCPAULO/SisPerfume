@@ -2,23 +2,42 @@
 
 import wx
 import guiperfumes
+import db
 
 # Implementing FrameVolumes
 class FrameVolumes(guiperfumes.FrameVolumes):
 	def __init__( self, parent ):
 		guiperfumes.FrameVolumes.__init__( self, parent )
+		self.atualizarGrid()
 
 	# Handlers for FrameVolumes events.
 	def fecharFrame( self, event ):
-		# TODO: Implement fecharFrame
-		pass
+		self.Show(False)
 
 	def adicionarVolume( self, event ):
-		# TODO: Implement adicionarVolume
-		pass
+		nome=self.txtNome.GetValue() #Recupera o conteúdo da caixa de texto
+		db.inserirVolume(nome) #Chama a função inserir marca do arquivo db.py
+		#Exibe uma mensagem ao usuário confirmado o sucesso na inserção
+		wx.MessageBox(message="Vomule Inserido com Sucesso!",caption="SisPerfumes",style=wx.OK,parent=self)
+		self.atualizarGrid()#Atualiza o grid com a relação de marcas
 
+	# Essa função é chamada quando o usuário edita o conteúdo de uma célula do meu grid
 	def atualizarVolume( self, event ):
-		# TODO: Implement atualizarVolume
-		pass
+		nome_volume=self.gridVolumes.GetCellValue(event.GetRow(),event.GetCol()) #Recupera a descrição do volume editado
+		if (nome_volume): #Se o conteúdo não for vazio, faça
+			id_volume=int(self.gridVolumes.GetCellValue(event.GetRow(),0))#Pegue na linha editada, o conteúdo da primeira coluna
+			db.atualizarVolume(id_volume,nome_volume) #Chame a função para atualizar um volume
+			wx.MessageBox(message="Volume Atualizado com Sucesso",caption="SysPerfumes",style=wx.OK,parent=self)
+
+	def atualizarGrid(self):
+		if (self.gridVolumes.GetNumberRows()>0):
+			self.gridVolumes.DeleteRows(0,self.gridVolumes.GetNumberRows()) #Limpa a tabela
+		volumes=db.listarVolume() #Chama a função listar volumes, retornando a lista de volumes existentes
+		for volumes in volumes:
+			self.gridVolumes.AppendRows(1)#Adiciona uma linha em branco
+			self.gridVolumes.SetCellValue(self.gridVolumes.GetNumberRows()-1,0,str(volumes[0])) #adicione o id da marca
+			self.gridVolumes.SetCellValue(self.gridVolumes.GetNumberRows() - 1, 1, volumes[1]) #adiciona o nome da marca
+			self.gridVolumes.SetReadOnly(self.gridVolumes.GetNumberRows() - 1, 0, True) #Informa que a coluna 0(ID) é somente leitura
+
 
 

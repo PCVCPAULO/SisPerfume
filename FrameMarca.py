@@ -9,6 +9,7 @@ class FrameMarca(guiperfumes.FrameMarca):
 	def __init__( self, parent ):
 		guiperfumes.FrameMarca.__init__( self, parent )
 		self.atualizarGrid()
+
 	# Handlers for FrameMarca events.
 	def adicionarMarca( self, event ):
 		nome=self.txtNome.GetValue() #Recupera o conteúdo da caixa de texto
