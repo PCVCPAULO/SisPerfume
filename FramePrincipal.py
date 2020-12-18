@@ -7,6 +7,7 @@ from FramePerfumes import FramePerfumes
 from FrameVolumes import  FrameVolumes
 from FrameFixacao import FrameFixacao
 from FrameEssencias import FrameEssencias
+from FrameEssencia_Perfume import FrameEssencia_Perfume
 
 # Implementing FramePrincipal
 class FramePrincipal(guiperfumes.FramePrincipal):
@@ -17,6 +18,7 @@ class FramePrincipal(guiperfumes.FramePrincipal):
 		self.frameVolume=None
 		self.frameFixacao=None
 		self.frameEssencia=None
+		self.frameEssencia_Perfume=None
 
 	# Handlers for FramePrincipal events.
 	def fecharFramePrincipal( self, event ):
@@ -46,6 +48,11 @@ class FramePrincipal(guiperfumes.FramePrincipal):
 		if not self.frameEssencia:
 			self.frameEssencia = FrameEssencias(self)
 		self.frameEssencia.Show(True)
+
+	def abrirEssencia_Perfume(self, event ):
+		if not self.frameEssencia_Perfume:
+			self.frameEssencia_Perfume = FrameEssencia_Perfume(self)
+		self.frameEssencia_Perfume.Show(True)
 
 
 	def fecharApp( self, event ):

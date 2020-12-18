@@ -27,6 +27,7 @@ class FramePerfumes(guiperfumes.FramePerfumes):
 			wx.MessageBox(message="Erro ao Salvar Perfumes",caption="SysPerfume",style=wx.OK|wx.ICON_ERROR)
 		#Recarrega a tabela
 		self.exibirTabela()
+
 	#Essa função atualiza o grid de perfumes
 	def exibirTabela(self):
 		perfumes=db.listarPerfumes() #Recupera a lista de perfumes
@@ -34,6 +35,7 @@ class FramePerfumes(guiperfumes.FramePerfumes):
 			self.gridPerfumes.DeleteRows(pos=0,numRows=self.gridPerfumes.GetNumberRows())
 		for perfume in perfumes: #Para cada perfume da minha lista, crie uma nova linha, passando os dados retornados
 			self.criarLinha(id_perfume=perfume[0],nome_perfume=perfume[1],quantidade=perfume[2],volume=perfume[3],marca=perfume[4],fixacao=perfume[5])
+
 	def exibirFrame( self, event ):
 		self.exibirTabela() #Ao abrir a janela, exiba a lista de perfumes
 	'''
@@ -41,25 +43,24 @@ class FramePerfumes(guiperfumes.FramePerfumes):
 	'''
 	def criarLinha(self,id_perfume=None,nome_perfume=None,quantidade=None,marca=None,fixacao=None,volume=None):
 		self.gridPerfumes.AppendRows(1) #Adiciona uma linha
-		linha=self.gridPerfumes.GetNumberRows()-1#Pega qual o número da linha estamos inserindo
+		linha=self.gridPerfumes.GetNumberRows()-1   #Pega qual o número da linha estamos inserindo
 		self.gridPerfumes.SetReadOnly(linha,0,True) #Define que a primeira coluna(ID) é do tipo somente leitura
 		self.gridPerfumes.SetCellEditor(linha,2,wx.grid.GridCellNumberEditor(min=1,max=1000)) #Define que a coluna quantidade só pode receber inteiros entre 1 e 1000
 		'''
-			Aqui usamos um recurso avançado do componente wxGrid. Especificamente, as colunas Volume, Marca e Fixacoes,
+			Aqui usamos um recurso avançado do componente wxGrid. 
+			Especificamente, as colunas Volume, Marca e Fixacoes,
 			precisam apresentar o conteúdos das respectivas tabelas, para que o usuário escolha qual quer vincular ao perfume. 
 			No caso específico do Volume, precisamos informar quais as opções(choices) o usuário poderá escolher. Essas opções são formadas por
 			uma lista de strings(texto), que nesse caso são os dados da coluna nome da tabela Volume.
 		'''
 		self.gridPerfumes.SetCellEditor(linha,3,wx.grid.GridCellChoiceEditor(choices=db.listarVolumeNome()))
-		self.gridPerfumes.SetCellEditor(linha, 4,
-										wx.grid.GridCellChoiceEditor(choices=db.listarMarcaNome()))
-		self.gridPerfumes.SetCellEditor(linha, 5,
-										wx.grid.GridCellChoiceEditor(choices=db.listarFixacaoNome()))
+		self.gridPerfumes.SetCellEditor(linha,4,wx.grid.GridCellChoiceEditor(choices=db.listarMarcaNome()))
+		self.gridPerfumes.SetCellEditor(linha,5,wx.grid.GridCellChoiceEditor(choices=db.listarFixacaoNome()))
 		if id_perfume: #Se o id foi passado, significa que podemos atribuir o conteúdo as células do grid
 			self.gridPerfumes.SetCellValue(linha,0,str(id_perfume))
 			self.gridPerfumes.SetCellValue(linha,1, nome_perfume)
-			self.gridPerfumes.SetCellValue(linha, 2, str(quantidade))
-			self.gridPerfumes.SetCellValue(linha, 3, volume)
+			self.gridPerfumes.SetCellValue(linha,2, str(quantidade))
+			self.gridPerfumes.SetCellValue(linha,3, volume)
 			self.gridPerfumes.SetCellValue(linha,4, marca)
 			self.gridPerfumes.SetCellValue(linha,5, fixacao)
 

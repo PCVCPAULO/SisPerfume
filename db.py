@@ -79,6 +79,7 @@ def listarVolume():
     volumes=cursor.fetchall()
     cursor.close()
     return volumes
+
 def listarVolumeNome():
     sql="select nome from Volumes order by nome"
     cursor=banco.cursor()
@@ -89,6 +90,7 @@ def listarVolumeNome():
     for nome_volume in nome_volumes:
         volumes.append(nome_volume[0])
     return volumes
+
 def localizarVolumePorNome(nome):
     sql="select * from Volumes where nome='{0}'".format(nome)
     cursor=banco.cursor()
@@ -132,12 +134,12 @@ def listarFixacaoNome():
     sql="select nome from Fixacoes order by nome"
     cursor=banco.cursor()
     cursor.execute(sql)
-    nome_fixacao=cursor.fetchall()
+    nome_fixacoes=cursor.fetchall()
     cursor.close()
-    fixacao=[]
-    for fixacao in nome_fixacao:
-        fixacao.append(fixacao[0])
-    return fixacao
+    fixacoes=[]
+    for nome_fixacao in nome_fixacoes:
+        fixacoes.append(nome_fixacao[0])
+    return fixacoes
 
 def inserirEssencia(nome):
     sql="insert into Essencias (nome) values('{0}')".format(nome)
@@ -181,6 +183,56 @@ def listarEssenciaNome():
         essencia.append(essencia[0])
     return essencia
 
+def vincularEssenciaPerfume():
+    sql="SELECT * FROM Perfumes AS P JOIN Essencias AS E ON P.ID = E.ID"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    essencia_perfume=cursor.fetchall()
+    cursor.close()
+    print(len(essencia_perfume))
+    return essencia_perfume
+
+def listarEssencia_Perfume():
+    sql="select * from Essencia_Perfume"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    essenciaP=cursor.fetchall()
+    cursor.close()
+    print(len(essenciaP))
+    return essenciaP
+
+def localizarPerfumePorNome(nome):
+    sql="select * from Perfumes where nome='{0}'".format(nome)
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    perfume=cursor.fetchone()
+    cursor.close()
+    return perfume
+
+def salvarVinculo(listaEssencia_Perfume):
+    cursor=banco.cursor()
+    for essencia_perfume in listaEssencia_Perfume: #For percorre a lista de perfumes, inserindo ou atualizando, um por um
+        sql=''
+        #Se perfume[0] for vazio, ou seja, o id, significa que temos que incliuir o registro
+        if essencia_perfume[0]=='':
+            #As funções localizar buscam o id do volume, marca e fixacao, de forma a garantir a integridade do banco de dados
+            sql="insert into essencia_perfume (id_perfume,id_essencia) " \
+                "values('{0}',{1} {2})".format(essencia_perfume[0],localizarPerfumePorNome(essencia_perfume[1])[0],
+                                                       localizarEssenciaPorNome(essencia_perfume[2])[0])
+        #Caso contrário, devemos atualizar
+        else:
+            sql="update essencia_perfume set idperfume='{1}', " \
+                 "idesencia={2} where id={0}".format(essencia_perfume[0],essencia_perfume[1],essencia_perfume[2],
+                                                                  localizarPerfumePorNome(essencia_perfume[1])[0],
+                                                                  localizarEssenciaPorNome(essencia_perfume[2])[0])
+        try:
+            cursor.execute(sql) #Executo a instrução, se der um erro, retorna a mensagem de erro
+        except sqlite3.Error as e:
+            return False,"Erro ao salvar essencia_perfume: "+e.args[0]
+    banco.commit() #Se tudo correr bem, confirma as alterações no banco
+    cursor.close() #Fecha a conexão
+    return True,None #Retorna dizendo que deu certo salvar a lista de perfumes
+
 
 
 '''
@@ -199,6 +251,29 @@ def listarPerfumes():
     cursor.execute(sql)
     perfumes=cursor.fetchall()
     return perfumes
+
+def listarPerfumesID():
+    sql="select id from Perfumes order by id"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    id_perfumes=cursor.fetchall()
+    cursor.close()
+    ids=[]
+    for id_perfume in id_perfumes:
+        ids.append(id_perfume[0])
+    return ids
+
+def listarPerfumesNome():
+    sql="select nome from Perfumes order by nome"
+    cursor=banco.cursor()
+    cursor.execute(sql)
+    nome_perfumes=cursor.fetchall()
+    cursor.close()
+    perfumes=[]
+    for nome_perfume in nome_perfumes:
+        perfumes.append(nome_perfume[0])
+    return perfumes
+
 '''
 Essa função é a mais complexa do nosso programa. Ela recebe como parâmetro uma lista de perfumes,
 que virá do FramePerfumes. Essa lista deve conter 6 elementos:

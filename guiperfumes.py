@@ -428,7 +428,7 @@ class FramePrincipal ( wx.Frame ):
 		self.Bind( wx.EVT_MENU, self.abrirFixacoes, id = self.menuFixacoes.GetId() )
 		self.Bind( wx.EVT_MENU, self.abrirVolumes, id = self.menuVolume.GetId() )
 		self.Bind( wx.EVT_MENU, self.abrirPerfume, id = self.menuPerfumes.GetId() )
-		self.Bind( wx.EVT_MENU, self.abrirEssencias, id = self.menuPerfumeEssencia.GetId() )
+		self.Bind( wx.EVT_MENU, self.abrirEssencia_Perfume, id = self.menuPerfumeEssencia.GetId() )
 		self.Bind( wx.EVT_MENU, self.fecharApp, id = self.menuSair.GetId() )
 
 	def __del__( self ):
@@ -454,6 +454,8 @@ class FramePrincipal ( wx.Frame ):
 	def abrirPerfume( self, event ):
 		event.Skip()
 
+	def abrirEssencia_Perfume( self, event ):
+		event.Skip()
 
 	def fecharApp( self, event ):
 		event.Skip()
@@ -466,7 +468,7 @@ class FramePrincipal ( wx.Frame ):
 class FramePerfumes ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Perfumes", pos = wx.DefaultPosition, size = wx.Size( 1032,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Perfumes", pos = wx.DefaultPosition, size = wx.Size( 1046,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -555,6 +557,101 @@ class FramePerfumes ( wx.Frame ):
 		event.Skip()
 
 	def salvarPerfume( self, event ):
+		event.Skip()
+
+
+###########################################################################
+## Class FrameEssencia_Perfume
+###########################################################################
+
+class FrameEssencia_Perfume ( wx.Frame ):
+
+	def __init__( self, parent ):
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Vincula Essências a um Perfume", pos = wx.DefaultPosition, size = wx.Size( 1132,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+
+		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
+
+		bSizer16 = wx.BoxSizer( wx.VERTICAL )
+
+		bSizer17 = wx.BoxSizer( wx.VERTICAL )
+
+		self.gridEssencia_Perfume = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
+
+		# Grid
+		self.gridEssencia_Perfume.CreateGrid( 0, 7 )
+		self.gridEssencia_Perfume.EnableEditing( True )
+		self.gridEssencia_Perfume.EnableGridLines( True )
+		self.gridEssencia_Perfume.EnableDragGridSize( False )
+		self.gridEssencia_Perfume.SetMargins( 0, 0 )
+
+		# Columns
+		self.gridEssencia_Perfume.SetColSize( 0, 30 )
+		self.gridEssencia_Perfume.SetColSize( 1, 60 )
+		self.gridEssencia_Perfume.SetColSize( 2, 200 )
+		self.gridEssencia_Perfume.SetColSize( 3, 100 )
+		self.gridEssencia_Perfume.SetColSize( 4, 200 )
+		self.gridEssencia_Perfume.SetColSize( 5, 200 )
+		self.gridEssencia_Perfume.SetColSize( 6, 100 )
+		self.gridEssencia_Perfume.SetColSize( 7, 200 )
+		self.gridEssencia_Perfume.EnableDragColMove( False )
+		self.gridEssencia_Perfume.EnableDragColSize( True )
+		self.gridEssencia_Perfume.SetColLabelSize( 30 )
+		self.gridEssencia_Perfume.SetColLabelValue( 0, u"ID" )
+		self.gridEssencia_Perfume.SetColLabelValue( 1, u"idPerf" )
+		self.gridEssencia_Perfume.SetColLabelValue( 2, u"Nome" )
+		self.gridEssencia_Perfume.SetColLabelValue( 3, u"Quantidade" )
+		self.gridEssencia_Perfume.SetColLabelValue( 4, u"Volume" )
+		self.gridEssencia_Perfume.SetColLabelValue( 5, u"Marca" )
+		self.gridEssencia_Perfume.SetColLabelValue( 6, u"Fixação" )
+		self.gridEssencia_Perfume.SetColLabelValue( 7, u"Essencia" )
+		self.gridEssencia_Perfume.SetColLabelValue( 8, wx.EmptyString )
+		self.gridEssencia_Perfume.SetColLabelValue( 9, wx.EmptyString )
+		self.gridEssencia_Perfume.SetColLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
+
+		# Rows
+		self.gridEssencia_Perfume.EnableDragRowSize( True )
+		self.gridEssencia_Perfume.SetRowLabelSize( 80 )
+		self.gridEssencia_Perfume.SetRowLabelAlignment( wx.ALIGN_CENTER, wx.ALIGN_CENTER )
+
+		# Label Appearance
+
+		# Cell Defaults
+		self.gridEssencia_Perfume.SetDefaultCellAlignment( wx.ALIGN_LEFT, wx.ALIGN_TOP )
+		bSizer17.Add( self.gridEssencia_Perfume, 1, wx.ALL|wx.EXPAND, 5 )
+
+
+		bSizer16.Add( bSizer17, 1, wx.EXPAND, 5 )
+
+		bSizer18 = wx.BoxSizer( wx.HORIZONTAL )
+
+		self.btnAdicionar = wx.Button( self, wx.ID_ANY, u"Adicionar Vinculo", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer18.Add( self.btnAdicionar, 1, wx.ALL, 5 )
+
+		self.btnSalvar = wx.Button( self, wx.ID_ANY, u"Salvar Vinculo       ", wx.DefaultPosition, wx.DefaultSize, 0 )
+		bSizer18.Add( self.btnSalvar, 1, wx.ALL, 5 )
+
+
+		bSizer16.Add( bSizer18, 0, wx.EXPAND, 5 )
+
+
+		self.SetSizer( bSizer16 )
+		self.Layout()
+
+		self.Centre( wx.BOTH )
+
+		# Connect Events
+		self.btnAdicionar.Bind( wx.EVT_BUTTON, self.adicionarLinha )
+		self.btnSalvar.Bind( wx.EVT_BUTTON, self.salvarVinculo )
+
+	def __del__( self ):
+		pass
+
+
+	# Virtual event handlers, overide them in your derived class
+	def adicionarLinha( self, event ):
+		event.Skip()
+
+	def salvarVinculo( self, event ):
 		event.Skip()
 
 
