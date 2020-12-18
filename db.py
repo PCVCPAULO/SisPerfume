@@ -176,12 +176,12 @@ def listarEssenciaNome():
     sql="select nome from Essencias order by nome"
     cursor=banco.cursor()
     cursor.execute(sql)
-    nome_essencia=cursor.fetchall()
+    nome_essencias=cursor.fetchall()
     cursor.close()
-    essencia=[]
-    for essencia in nome_essencia:
-        essencia.append(essencia[0])
-    return essencia
+    essencias=[]
+    for nome_essencia in nome_essencias:
+        essencias.append(nome_essencia[0])
+    return essencias
 
 def vincularEssenciaPerfume():
     sql="SELECT * FROM Perfumes AS P JOIN Essencias AS E ON P.ID = E.ID"
@@ -213,18 +213,14 @@ def salvarVinculo(listaEssencia_Perfume):
     cursor=banco.cursor()
     for essencia_perfume in listaEssencia_Perfume: #For percorre a lista de perfumes, inserindo ou atualizando, um por um
         sql=''
-        #Se perfume[0] for vazio, ou seja, o id, significa que temos que incliuir o registro
+        #Se essencia_perfume[0] for vazio, ou seja, o id, significa que temos que incliuir o registro
         if essencia_perfume[0]=='':
-            #As funções localizar buscam o id do volume, marca e fixacao, de forma a garantir a integridade do banco de dados
-            sql="insert into essencia_perfume (id_perfume,id_essencia) " \
-                "values('{0}',{1} {2})".format(essencia_perfume[0],localizarPerfumePorNome(essencia_perfume[1])[0],
-                                                       localizarEssenciaPorNome(essencia_perfume[2])[0])
+            #As funções localizar buscam o id do perfume e essência, de forma a garantir a integridade do banco de dados
+            sql="insert into essencia_perfume (id_perfume,id_essencia) values({0},{1})".format(essencia_perfume[0],essencia_perfume[1])
+
         #Caso contrário, devemos atualizar
         else:
-            sql="update essencia_perfume set idperfume='{1}', " \
-                 "idesencia={2} where id={0}".format(essencia_perfume[0],essencia_perfume[1],essencia_perfume[2],
-                                                                  localizarPerfumePorNome(essencia_perfume[1])[0],
-                                                                  localizarEssenciaPorNome(essencia_perfume[2])[0])
+            sql="update essencia_perfume set id_perfume={0},id_esencia={1} where id={0}".format(essencia_perfume[0],essencia_perfume[1])
         try:
             cursor.execute(sql) #Executo a instrução, se der um erro, retorna a mensagem de erro
         except sqlite3.Error as e:

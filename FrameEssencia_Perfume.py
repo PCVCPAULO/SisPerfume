@@ -9,23 +9,21 @@ import db
 class FrameEssencia_Perfume(guiperfumes.FrameEssencia_Perfume):
 	def __init__( self, parent ):
 		guiperfumes.FrameEssencia_Perfume.__init__( self, parent )
-
 	# Essa método cria uma linha vazia na tabela para permitir que o usuário realização a edição
 	def adicionarLinha(self, event):
 		self.criarLinha()
 
-
 	def salvarVinculo( self, event ):
-		essencia_perfume=[]#Cria uma lista vazia de perfumes
-		for i in range(0,self.gridEssencia_Perfume.GetNumberRows()): #Percorre todas a linhas do grid
-			essencia_perfume.append([]) #em Cada linha adicionamos uma lista vazia, para que possamos adicionar os dados do perfume
+		essencia_perfume=[]      #Cria uma lista vazia de perfumes
+		for i in range(0,self.gridEssencia_Perfume.GetNumberRows()):     #Percorre todas a linhas do grid
+			essencia_perfume.append([])             #em Cada linha adicionamos uma lista vazia, para que possamos adicionar os dados do perfume
 			for j in range(0,self.gridEssencia_Perfume.GetNumberCols()): #Percorre todas as colunas da tabela
 				essencia_perfume[i].append(self.gridEssencia_Perfume.GetCellValue(col=j,row=i)) #Adiciona na lista de perfumes, cada coluna com as informações exibidas
-		status,message=db.salvarVinculo(listaPerfumes=perfumes) #Chama a função salvarPerfumes, passando a lista de perfumes
+		status,message=db.salvarVinculo(listaEssencia_Perfume=essencia_perfume) #Chama a função salvarEssencia_Perfume, passando a lista de perfumes
 		if status:
-			wx.MessageBox(message="Registro(s) Salvo(s) com Sucesso",caption="SysPerfume",style=wx.OK|wx.ICON_INFORMATION)
+			wx.MessageBox(message="Registro(s) de vinculos Salvo(s) com Sucesso",caption="SysPerfume",style=wx.OK|wx.ICON_INFORMATION)
 		else:
-			wx.MessageBox(message="Erro ao Salvar Perfumes",caption="SysPerfume",style=wx.OK|wx.ICON_ERROR)
+			wx.MessageBox(message="Erro ao Salvar vinculo de Essências e Perfumes",caption="SysPerfume",style=wx.OK|wx.ICON_ERROR)
 		#Recarrega a tabela
 		self.exibirTabela()
 
@@ -45,7 +43,7 @@ class FrameEssencia_Perfume(guiperfumes.FrameEssencia_Perfume):
 	'''
 	Esse método insere uma nova linha no grid. Caso o parâmetro id_perfume seja None, ele insere uma linha em branco
 	'''
-	def criarLinha(self,id=None,id_perfume=None,nome_perfume=None,quantidade=None,marca=None,fixacao=None,volume=None):
+	def criarLinha(self,id=None,id_perfume=None,nome_perfume=None,quantidade=None,marca=None,fixacao=None,volume=None,essencia=None):
 		self.gridEssencia_Perfume.AppendRows(1)     #Adiciona uma linha
 		linha=self.gridEssencia_Perfume.GetNumberRows()-1      #Pega qual o número da linha estamos inserindo
 		self.gridEssencia_Perfume.SetReadOnly(linha, 0, True)  # Define que a primeira coluna(ID) é do tipo somente leitura
@@ -57,20 +55,22 @@ class FrameEssencia_Perfume(guiperfumes.FrameEssencia_Perfume):
 			No caso específico do Volume, precisamos informar quais as opções(choices) o usuário poderá escolher. Essas opções são formadas por
 			uma lista de strings(texto), que nesse caso são os dados da coluna nome da tabela Volume.
 		'''
-		self.gridEssencia_Perfume.SetCellEditor(linha,1,wx.grid.GridCellChoiceEditor(choices=db.listarPerfumesID()))
+#		self.gridEssencia_Perfume.SetCellEditor(linha,1,wx.grid.GridCellChoiceEditor(choices=db.listarPerfumesID()))
 		self.gridEssencia_Perfume.SetCellEditor(linha,2,wx.grid.GridCellChoiceEditor(choices=db.listarPerfumesNome()))
 		self.gridEssencia_Perfume.SetCellEditor(linha,4,wx.grid.GridCellChoiceEditor(choices=db.listarVolumeNome()))
 		self.gridEssencia_Perfume.SetCellEditor(linha,5,wx.grid.GridCellChoiceEditor(choices=db.listarMarcaNome()))
 		self.gridEssencia_Perfume.SetCellEditor(linha,6,wx.grid.GridCellChoiceEditor(choices=db.listarFixacaoNome()))
+		self.gridEssencia_Perfume.SetCellEditor(linha,7,wx.grid.GridCellChoiceEditor(choices=db.listarEssenciaNome()))
 
 		if id: #Se o id foi passado, significa que podemos atribuir o conteúdo as células do grid
-			self.gridPerfumes.SetCellValue(linha,0,str(id))
-			self.gridPerfumes.SetCellValue(linha,1,str(id_perfume))
-			self.gridPerfumes.SetCellValue(linha,2, nome_perfume)
-			self.gridPerfumes.SetCellValue(linha,3, str(quantidade))
-			self.gridPerfumes.SetCellValue(linha,4, volume)
-			self.gridPerfumes.SetCellValue(linha,6, marca)
-			self.gridPerfumes.SetCellValue(linha,6, fixacao)
+			self.gridEssencia_Perfume.SetCellValue(linha,0,str(id))
+			self.gridEssencia_Perfume.SetCellValue(linha,1,str(id_perfume))
+			self.gridEssencia_Perfume.SetCellValue(linha,2, nome_perfume)
+			self.gridEssencia_Perfume.SetCellValue(linha,3, str(quantidade))
+			self.gridEssencia_Perfume.SetCellValue(linha,4, volume)
+			self.gridEssencia_Perfume.SetCellValue(linha,6, marca)
+			self.gridEssencia_Perfume.SetCellValue(linha,6, fixacao)
+			self.gridEssencia_Perfume.SetCellValue(linha,7, essencia)
 
 	def atualizarGrid(self):
 		if (self.gridEssencia_Perfume.GetNumberRows()>0):

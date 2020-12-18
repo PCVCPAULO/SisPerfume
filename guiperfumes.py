@@ -567,7 +567,7 @@ class FramePerfumes ( wx.Frame ):
 class FrameEssencia_Perfume ( wx.Frame ):
 
 	def __init__( self, parent ):
-		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Vincula Essências a um Perfume", pos = wx.DefaultPosition, size = wx.Size( 1132,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
+		wx.Frame.__init__ ( self, parent, id = wx.ID_ANY, title = u"Vincula Essências a um Perfume", pos = wx.DefaultPosition, size = wx.Size( 1131,300 ), style = wx.DEFAULT_FRAME_STYLE|wx.TAB_TRAVERSAL )
 
 		self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -578,7 +578,7 @@ class FrameEssencia_Perfume ( wx.Frame ):
 		self.gridEssencia_Perfume = wx.grid.Grid( self, wx.ID_ANY, wx.DefaultPosition, wx.DefaultSize, 0 )
 
 		# Grid
-		self.gridEssencia_Perfume.CreateGrid( 0, 7 )
+		self.gridEssencia_Perfume.CreateGrid( 0, 8 )
 		self.gridEssencia_Perfume.EnableEditing( True )
 		self.gridEssencia_Perfume.EnableGridLines( True )
 		self.gridEssencia_Perfume.EnableDragGridSize( False )
@@ -589,10 +589,10 @@ class FrameEssencia_Perfume ( wx.Frame ):
 		self.gridEssencia_Perfume.SetColSize( 1, 60 )
 		self.gridEssencia_Perfume.SetColSize( 2, 200 )
 		self.gridEssencia_Perfume.SetColSize( 3, 100 )
-		self.gridEssencia_Perfume.SetColSize( 4, 200 )
-		self.gridEssencia_Perfume.SetColSize( 5, 200 )
-		self.gridEssencia_Perfume.SetColSize( 6, 100 )
-		self.gridEssencia_Perfume.SetColSize( 7, 200 )
+		self.gridEssencia_Perfume.SetColSize( 4, 180 )
+		self.gridEssencia_Perfume.SetColSize( 5, 150 )
+		self.gridEssencia_Perfume.SetColSize( 6, 150 )
+		self.gridEssencia_Perfume.SetColSize( 7, 150 )
 		self.gridEssencia_Perfume.EnableDragColMove( False )
 		self.gridEssencia_Perfume.EnableDragColSize( True )
 		self.gridEssencia_Perfume.SetColLabelSize( 30 )
